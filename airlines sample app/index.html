@@ -1,353 +1,209 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Airline Sample</title>
-        <meta charset="UTF-8" />
-		<link href="jquery-mobile/jquery.mobile-1.3.1.min.css" rel="stylesheet" type="text/css" />
-        <!-- uncoment viewport meta tag, if targeting Android 4.x.x devices -->
-        <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-		<script src="cordova.js" type="text/javascript"></script>
-		<script src="jquery-mobile/jquery.min.js" type="text/javascript"></script>
-		<script src="jquery-mobile/jquery.mobile-1.3.1.min.js" type="text/javascript"></script>
-        <script>
-          $(function() { 
+
+<head>
+    <title>M-Pesa</title>
+    <meta charset="UTF-8" />
+    <link href="jquery-mobile/jquery.mobile-1.3.1.min.css" rel="stylesheet" type="text/css" />
+    <!-- uncoment viewport meta tag, if targeting Android 4.x.x devices -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <script src="cordova.js" type="text/javascript"></script>
+    <script src="jquery-mobile/jquery.min.js" type="text/javascript"></script>
+    <script src="jquery-mobile/jquery.mobile-1.3.1.min.js" type="text/javascript"></script>
+    <script>
+        $(function () {
             $.mobile.defaultHomeScroll = 0;
-          });
-        </script>
-		<script src="scripts/airlinedata.js" type="text/javascript"></script>
-		<script src="scripts/seatmapdrawing.js" type="text/javascript"></script>
-		<script src="scripts/main.js" type="text/javascript"></script>
+        });
+
         
-        <!-- Default Stylesheet -->
-        <link rel="stylesheet" href="styles/main.css" />
-        <!-- Phone 320x480 High DPI (aka Retina) -->
-		<link rel="stylesheet" media="only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio:2)" href="styles/phone-480.css" type="text/css" />
-        <!-- Phone 480x800 Medium DPI (aka Samsung Galaxy S II Skyrocket) -->
-        <link rel="stylesheet" media="only screen and (min-device-width: 320px) and (max-device-width: 508px) and (-webkit-device-pixel-ratio:1.5)" href="styles/phone-800.css" type="text/css" />
-        <!-- Tablet 768x1024 Low DPI (aka iPad 1 & 2") -->
-        <link rel="stylesheet" media="only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-device-pixel-ratio:1)" href="styles/tablet-1024-ldpi.css" type="text/css" />
-        <!-- Phone 720x1280 High DPI (aka Google Nexus) -->
-        <link rel="stylesheet" media="only screen and (min-device-width: 720px) and (max-device-width: 1280px) and (-webkit-device-pixel-ratio:2)" href="styles/phone-1280.css" type="text/css" />
-	</head>
-	<body>
-        
-        <!-- home page -->
-		<div id="home" data-role="page" data-mini="true">
-			<div data-role="header"  data-position="fixed"  data-tap-toggle="false">
-                <h1>Hi <span id="ffname"></span>!</h1>
-			</div>
-			<div class="info-wrapper">
-				<div class="info-wrapper-left">
-					<div class="ice-logo"></div>
-				</div>
-                
-                <div class="info-wrapper-right">
-					<div class="info">
-                        <div class="info-data" id="ffnum"></div>
-						<div class="info-label" for="ffnum">Air Miles:</div>
-                        <div class="clear"></div>
-					</div>
-					<div class="info">
-                        <div class="info-data" id="miles"></div>
-						<div class="info-label" for="miles">Total Miles:</div>
-                        <div class="clear"></div>
-					</div>
-					<div class="info">
-                        <div class="info-data" id="currentStatus">&nbsp;</div>
-						<div class="info-label" for="currentStatus">Priority:</div>
-                        <div class="clear"></div>
-					</div>
-				</div>
-                <div class="clear"></div>
-            </div>
-           
-			<div data-role="content"> 
-				<ul data-role="listview" id="myTripsView" data-inset="true" data-theme="d">
-					<li>
-						<a href="#myTrips" data-transition="slide">
-							MyTrips <span id="numberOfFlights"></span>
-						</a>
-					</li>
-				</ul>
-				<ul data-role="listview" id="flightStatusView" data-inset="true" data-theme="d">
-					<li>
-						<a href="#flightStatus" data-transition="slide">Flight Status</a>
-					</li>
-				</ul>
-				<ul data-role="listview" id="bagTrackView" data-inset="true" data-theme="d">
-					<li>
-						<a href="#bagTrack" data-transition="slide">Track your bag</a>
-					</li>
-				</ul>
-				<ul data-role="listview" id="programProgressView" data-inset="true" data-theme="d">
-					<li>
-						<a href="#programProgress" data-transition="slide">Mileage program progress</a>
-					</li>
-				</ul>
-                <ul data-role="listview" id="settingsView" data-inset="true" data-theme="d">
-					<li>
-						<a href="#settings" data-transition="slide">Settings</a>
-					</li>
-				</ul>
-			</div>
-		</div>
+        //Commission Calculator
+        function calcTaxes() {
 
-		<!-- seatPicker page -->
-		<div id="seatPicker" data-role="page">
-			<div data-role="header" data-position="fixed"  data-tap-toggle="false">
-				<h1>Pick a seat</h1>
-				<a href="#checkIn" data-role="button" id="backButton" data-transition="flip" class="ui-btn-right" data-rel="back">Done</a>
-			</div>
-			<div data-role="content">
-				<div id="seatMapPickerContainer"></div>
-			</div>
-		</div>
 
-		<!-- logon page -->
-		<div id="logon" data-role="page">
-			<div data-role="header" data-position="fixed"  data-tap-toggle="false">
-				<h1>Login</h1>
-			</div>
-			<div data-role="content">
-				<form id="login">
-					Username:
-					<input type="text" id="userName" value="jaxon.daniels@gmail.com" />
-					Password:
-					<input type="password" id="pwd" value="P2ssw0rd" />
-					<input type="submit" value="Login" />
-				</form>
-			</div>
-		</div>
-
-		<!-- tripDetail page -->
-		<div id="tripDetail" data-role="page" data-add-back-btn="true">
-			<div data-role="header" data-position="fixed"  data-tap-toggle="false">
-				<h1>Trip Details</h1>
-                <a data-role="button" href="#home" class="ui-btn-right">Home</a>
-			</div>
-			<div data-role="content">
-				<ul data-role="listview" id="tripDetailList" data-inset="true" data-theme="d">
-					<li class="center-wrapper" data-role="list-divider">
-						<span id="tripDetail-title"></span>
-					</li>
-					<li>
-						<div class="ui-grid-a">
-							<div class="ui-block-a">Flight Number</div>
-							<div class="ui-block-b">
-								<span id="tripDetail-flightNum"></span>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="ui-grid-a">
-							<div class="ui-block-a">Departure Time</div>
-							<div class="ui-block-b">
-								<span id="tripDetail-depart"></span>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="ui-grid-a">
-							<div class="ui-block-a">Seat</div>
-							<div class="ui-block-b">
-								<span id="tripDetail-seat"></span>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<ul data-role="listview" id="tripDetailList-return" data-inset="true" data-theme="d">
-					<li class="center-wrapper" data-role="list-divider">
-						<span id="tripDetail-return-title"></span>
-					</li>
-					<li>
-						<div class="ui-grid-a">
-							<div class="ui-block-a">Flight Number</div>
-							<div class="ui-block-b">
-								<span id="tripDetail-return-flightNum"></span>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="ui-grid-a">
-							<div class="ui-block-a">Departure Time</div>
-							<div class="ui-block-b">
-								<span id="tripDetail-return-depart"></span>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="ui-grid-a">
-							<div class="ui-block-a">Seat</div>
-							<div class="ui-block-b">
-								<span id="tripDetail-return-seat"></span>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-
-		<!--boardingPass page-->
-		<div id="boardingPass" data-role="page" data-add-back-btn="true">
-			<div data-role="header" data-position="fixed"  data-tap-toggle="false">
-				<h1>Boarding Pass</h1>
-				<a data-role="button" href="#home" class="ui-btn-right">Home</a>
-			</div>
-			<div data-role="content">
-				<ul data-role="listview" id="boardingPassData" data-inset="true" data-theme="d">
-					<li class="center-wrapper" data-role="list-divider">
-						<span id="boardingpass-cnum"></span>
-					</li>
-					<li class="center-wrapper">
-						<div class="boardingPassCode"></div>
-					</li>
-					<li>
-						<div class="ui-grid-a">
-							<div class="ui-block-a">Passenger</div>
-							<div class="ui-block-b">
-								<span id="boardingpass-passenger"></span>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="ui-grid-a">
-							<div class="ui-block-a">Flight</div>
-							<div class="ui-block-b">
-								<span id="boardingpass-flight"></span>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="ui-grid-a">
-							<div class="ui-block-a">Departure Time</div>
-							<div class="ui-block-b">
-								<span id="boardingpass-depart"></span>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="ui-grid-a">
-							<div class="ui-block-a">Gate</div>
-							<div class="ui-block-b">
-								<span id="boardingpass-gate"></span>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="ui-grid-a">
-							<div class="ui-block-a">Seat</div>
-							<div class="ui-block-b">
-								<span id="boardingpass-seat"></span>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-
-		<!--checkIn page-->
-		<div id="checkIn" data-role="page" data-add-back-btn="true">
-			<div data-role="header" data-position="fixed"  data-tap-toggle="false">
-				<h1>Check In</h1>
-                <a data-role="button" href="#home" class="ui-btn-right">Home</a>
-			</div>
-			<div data-role="content">
-				<div class="ui-grid-a">
-					<div class="ui-block-a">
-						<ul data-role="listview" data-inset="true" data-theme="d">
-							<li data-role="list-divider">Flight</li>
-							<li>
-								<span id="checkIn-flight-number"></span>
-							</li>
-                            <li>
-								<span id="checkIn-flight-destination"></span>
-							</li>
-						</ul>
-					</div>
-					<div class="ui-block-b">
-						<ul data-role="listview" data-inset="true" data-theme="d">
-							<li data-role="list-divider">Seat</li>
-							<li>
-								<span id="checkIn-seat"></span>
-							</li>
-							<li>
-								<a href="#seatPicker" data-transition="slide">Change Seat</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<a href="#boardingPass" data-role="button">Check In</a>
-			</div>
-		</div>
-
-		<!--myTrips page-->
-		<div id="myTrips" data-role="page" data-add-back-btn="true">
-			<div data-role="header" data-position="fixed"  data-tap-toggle="false">
-				<h1>My Trips</h1>
-			</div>
-			<div data-role="content">
-				<ul data-role="listview" id="myTripsListView" data-inset="true" data-theme="d">
-				</ul>
-			</div>
-		</div>
-
-		<!--flightStatus page-->
-		<div id="flightStatus" data-role="page" data-add-back-btn="true">
-			<div data-role="header" data-position="fixed"  data-tap-toggle="false">
-				<h1>Flight Status</h1>
-
-			</div>
-			<div data-role="content">
-				<ul data-role="listview" id="Ul1" data-inset="true" data-theme="d">
-					<li>Coming Soon!</li>
-				</ul>
-			</div>
-		</div>
-        
-		<!--bagTrack page-->
-		<div id="bagTrack" data-role="page" data-add-back-btn="true">
-			<div data-role="header" data-position="fixed"  data-tap-toggle="false">
-				<h1>Bag Track</h1>
-			</div>
-			<div data-role="content">
-				<ul data-role="listview" id="Ul2" data-inset="true" data-theme="d">
-					<li>Coming Soon!</li>
-				</ul>
-			</div>
-		</div>
-
-		<!--programProgress page-->
-		<div id="programProgress" data-role="page" data-add-back-btn="true">
-			<div data-role="header" data-position="fixed"  data-tap-toggle="false">
-				<h1>Progress</h1>
-			</div>
-			<div data-role="content">
-				<ul data-role="listview" id="Ul3" data-inset="true" data-theme="d">
-					<li>Coming Soon!</li>
-				</ul>
-			</div>
-		</div>
-        
-        <!--Settings page-->
-		<div id="settings" data-role="page" data-add-back-btn="true">
-			<div data-role="header" data-position="fixed"  data-tap-toggle="false">
-				<h1>Settings</h1>
-			</div>
-			<div data-role="content">
-				<ul data-role="listview" id="Ul4" data-inset="true" data-theme="d">
-					<li>Come on, this is just a sample!</li>
-				</ul>
-			</div>
-		</div>
-        
-        <script>
-			var seatMapDrawing = new seatMapDrawing();
-			var airData = new airlinesData(2000);
-			var airlines = new airlinesApp();
-			airlines.run();
-		</script>
-    </body>
-</html>
+            var selectedId = $('#currency').data("kendoDropDownList").value();
+            alert(selectedId);
             
+            var x = document.frmSimulator.currency.value;
+            var x = parseFloat(x, 2);
+            
+            switch (true) {
+                case ((x >= 5) && (x <= 100)):
+                    Commission = 3;
+                    break;
+                case ((x > 101) && (x <= 500)):
+                    Commission = 15;
+                    break;
+                case ((x > 501) && (x <= 1000)):
+                    Commission = 15;
+                    break;
+                case ((x > 1001) && (x <= 2000)):
+                    Commission = 20;
+                    break;
+                case ((x > 2001) && (x <= 5000)):
+                    Commission = 25;
+                    break;
+                case ((x > 5001) && (x <= 10000)):
+                    Commission = 80;
+                    break;
+                case ((x > 10001) && (x <= 25000)):
+                    Commission = 100;
+                    break;
+                default:
+                    Commission = 0;
+                    alert("Erro: Valores tem de ser compreendidos entre 5 e 25.000 MT");
+                    break;
+            }
 
+            //document.frmTaxes.txtTax.value = parseFloat(Commission);
+            alert(Commission);
+            
+            return false;
+
+        }
         
+       
+        
+        
+            $(document).ready(function () {
+
+                // create Curerncy NumericTextBox from input HTML element
+                $("#currency").kendoNumericTextBox({
+                    format: "c",
+                    decimals: 2
+                });
+
+            });
+        
+    </script>
+
+    <script src="scripts/calculator.js" type="text/javascript"></script>
+    <script src="scripts/seatmapdrawing.js" type="text/javascript"></script>
+    <script src="scripts/main.js" type="text/javascript"></script>
+    <!-- Default Stylesheet -->
+    <link rel="stylesheet" href="styles/main.css" />
+    <!-- Phone 320x480 High DPI (aka Retina) -->
+    <link rel="stylesheet" media="only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio:2)" href="styles/phone-480.css" type="text/css" />
+    <!-- Phone 480x800 Medium DPI (aka Samsung Galaxy S II Skyrocket) -->
+    <link rel="stylesheet" media="only screen and (min-device-width: 320px) and (max-device-width: 508px) and (-webkit-device-pixel-ratio:1.5)" href="styles/phone-800.css" type="text/css" />
+    <!-- Tablet 768x1024 Low DPI (aka iPad 1 & 2") -->
+    <link rel="stylesheet" media="only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-device-pixel-ratio:1)" href="styles/tablet-1024-ldpi.css" type="text/css" />
+    <!-- Phone 720x1280 High DPI (aka Google Nexus) -->
+    <link rel="stylesheet" media="only screen and (min-device-width: 720px) and (max-device-width: 1280px) and (-webkit-device-pixel-ratio:2)" href="styles/phone-1280.css" type="text/css" />
+</head>
+
+<body>
+    <!-- home page -->
+    <div id="home" data-role="page" data-mini="true">
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
+            <h1></h1>
+        </div>
+        <!-- M-Pesa Logo -->
+        <div class="info-wrapper">
+            <center>
+                <div class="mpesa-logo"></div>
+            </center>
+        </div>
+        <!-- Main Menu -->
+        <div data-role="content">
+            <ul data-role="listview" id="viewSimulator" data-inset="true" data-theme="d">
+                <li>
+                    <a href="#mySimulator" data-transition="slide">Simulador de Custos</a>
+                </li>
+            </ul>
+            <ul data-role="listview" id="viewInformation" data-inset="true" data-theme="d">
+                <li>
+                    <a href="#information" data-transition="slide">Informacoes</a>
+                </li>
+            </ul>
+            <ul data-role="listview" id="viewAgents" data-inset="true" data-theme="d">
+                <li>
+                    <a href="#agents" data-transition="slide">Lista de Agentes</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- view Simulator -->
+    <div id="mySimulator" data-role="page" data-add-back-btn="true">
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
+            <h1>Simulador</h1>
+        </div>
+        <div data-role="content">
+            <form id="frmSimulator">
+                <b>Tipo de Simulacao:</b>
+                <div>
+                    <label>
+                        Transferencia
+                        <input type="radio" name="radioSimulationType" value="Checkbox 1" data-bind="checked: radio" />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Levantamento
+                        <input type="radio" name="radioSimulationType" value="Checkbox 2" data-bind="checked: radio" />
+                    </label>
+                </div>
+                <br>
+                <b>Cliente Registado:</b>
+                <div>
+                    <label>
+                        Sim
+                        <input type="radio" name="radioRegisteredClient" value="Checkbox 1" data-bind="checked: radio" />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Nao
+                        <input type="radio" name="radioRegisteredClient" value="Checkbox 2" data-bind="checked: radio" />
+                    </label>
+                </div>
+                <br>
+                <div>
+                    <span class="description"><b>Valor (MT)</b></span>
+                    <input id="currency" type="number" value="100" min="5" max="25000" step="5" />
+                </div><br><br>
+                
+                <h3>
+                    Comissao:       
+                </h3><span data-bind="text: Commission"></span>
+                <br><br><br>
+                <input type="submit" value="Calcular" onclick="return calcTaxes(); return false;" />
+            </form>
+        </div>
+    </div>
+    </div>
+    
+    
+    <!-- view Informations-->
+    <div id="information" data-role="page" data-add-back-btn="true">
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
+            <h1>Informacoes</h1>
+        </div>
+        <div data-role="content">
+            <ul data-role="listview" id="Ul1" data-inset="true" data-theme="d">
+                <li>Coming Soon!</li>
+            </ul>
+        </div>
+        <!-- view Agents -->
+        <div id="agents" data-role="page" data-add-back-btn="true">
+            <div data-role="header" data-position="fixed" data-tap-toggle="false">
+                <h1>Bag Track</h1>
+            </div>
+            <div data-role="content">
+                <ul data-role="listview" id="Ul2" data-inset="true" data-theme="d">
+                    <li>Coming Soon!</li>
+                </ul>
+            </div>
+        </div>
+        <script>
+            /*
+                    var seatMapDrawing = new seatMapDrawing();
+                    var airData = new airlinesData(2000);
+                    var airlines = new airlinesApp();
+                    airlines.run();
+                    */
+
+        </script>
+</body>
+
+</html>

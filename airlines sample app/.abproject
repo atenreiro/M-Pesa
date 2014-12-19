@@ -48,5 +48,6 @@
   "WP8PublisherID": "{143367e4-3ee9-448a-b8d2-b5e1e126c03c}",
   "Author": "",
   "Description": "airlines sample app",
-  "Framework": "Cordova"
+  "Framework": "Cordova",
+  "projectVersion": "1"
 }
