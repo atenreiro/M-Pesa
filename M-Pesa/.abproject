@@ -1,27 +1,21 @@
 {
   "ProjectGuid": "163ec050-1adf-4897-b5bf-e6b896dafa1b",
   "ProjectTypeGuids": "{070BCB52-5A75-4F8C-A973-144AF0EAFCC9}",
-  "AppIdentifier": "com.telerik.airlinessampleapp",
-  "ProjectName": "airlines sample app",
+  "AppIdentifier": "com.andretenreiro.mpesa",
+  "ProjectName": "M-Pesa",
   "IsRunnable": "true",
   "AndroidPermissions": [
-    "android.permission.CAMERA",
-    "android.permission.VIBRATE",
     "android.permission.ACCESS_COARSE_LOCATION",
     "android.permission.ACCESS_FINE_LOCATION",
-    "android.permission.ACCESS_LOCATION_EXTRA_COMMANDS",
-    "android.permission.READ_PHONE_STATE",
+    "android.permission.ACCESS_MOCK_LOCATION",
     "android.permission.INTERNET",
-    "android.permission.RECEIVE_SMS",
-    "android.permission.RECORD_AUDIO",
-    "android.permission.MODIFY_AUDIO_SETTINGS",
-    "android.permission.READ_CONTACTS",
-    "android.permission.WRITE_CONTACTS",
-    "android.permission.WRITE_EXTERNAL_STORAGE",
-    "android.permission.ACCESS_NETWORK_STATE"
+    "android.permission.LOCATION_HARDWARE",
+    "android.permission.READ_PHONE_STATE",
+    "android.permission.VIBRATE"
   ],
   "DeviceOrientations": [
-    "Portrait"
+    "Portrait",
+    "Landscape"
   ],
   "iOSStatusBarStyle": "Default",
   "BundleVersion": "1.0",
@@ -35,10 +29,9 @@
   "iOSBackgroundMode": [],
   "FrameworkVersion": "3.5.0",
   "CorePlugins": [
-    "org.apache.cordova.splashscreen",
     "org.apache.cordova.statusbar"
   ],
-  "DisplayName": "",
+  "DisplayName": "M-Pesa",
   "WP8SupportedResolutions": [
     "ID_RESOLUTION_WVGA",
     "ID_RESOLUTION_WXGA",
@@ -46,8 +39,8 @@
   ],
   "WP8ProductID": "{163ec050-1adf-4897-b5bf-e6b896dafa1b}",
   "WP8PublisherID": "{143367e4-3ee9-448a-b8d2-b5e1e126c03c}",
-  "Author": "",
-  "Description": "airlines sample app",
+  "Author": "Andre Tenreiro",
+  "Description": "Utilitario M-Pesa",
   "Framework": "Cordova",
   "projectVersion": "1"
 }
